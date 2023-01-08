@@ -32,17 +32,9 @@ const Editor = ({editorState, updateEditorState}: EditorProps) => {
   return (
     <div className='editor'>
       <h1>Editor</h1>
-      <TextField
-        id="outlined-multiline-static"
-        className='editor__input'
-        label="Multiline"
-        multiline
-        defaultValue={editorState}
-        onChange={(e) => updateEditorState(e.target.value)}
-        variant="outlined"
-        rows={80}
-        fullWidth
-      />
+      <textarea id="w3review" name="w3review" rows={4} cols={50}>
+        {editorState}
+      </textarea>
     </div>
   );
 };
