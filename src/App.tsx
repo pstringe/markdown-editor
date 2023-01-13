@@ -28,23 +28,25 @@ const Nav = () => {
 };
 
 const Editor = ({editorState, updateEditorState}: EditorProps) => {
-
+  const handleChange = (event: any) => {
+    updateEditorState(event.target.value);
+  };
   return (
     <div className='editor'>
       <h1>Editor</h1>
-      <textarea id="w3review" name="w3review" rows={4} cols={50}>
-        {editorState}
+      <textarea id="w3review" name="w3review" rows={4} cols={50} value={editorState ?? ''} onChange={handleChange}>
+        {/* {editorState ?? ''} */}
       </textarea>
     </div>
   );
 };
 
-const Preview = ({editorState, updateEditorState}: Partial<EditorProps>) => {
+const Preview = ({editorState}: Partial<EditorProps>) => {
   return (
     <div className='preview'>
       <h1>Preview</h1>
       <div className='preview__output'>
-        {editorState}
+        {editorState ?? ''}
       </div>
     </div>
   );
@@ -62,7 +64,6 @@ const Main = (editorProps: EditorProps) => {
 
 function App() {
   const [editorState, updateEditorState] = useState('');
-
   return (
     <ThemeProvider theme={theme ?? {}}>
     <Nav />
