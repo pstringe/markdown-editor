@@ -1,18 +1,33 @@
 import * as React from 'react';
 import './App.css';
-import { red } from '@mui/material/colors';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
+import {theme} from './theme';
 import Container from '@mui/material/Container';
 import { TextField } from '@mui/material';
+import Editor from './components/Editor';
+import Preview from './components/Preview';
 import { useState } from 'react';
+import Box from '@mui/material/Box';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: red[500],
+const styles = {
+  main: {
+    root: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '80vh',
+    }, 
+    editor: {
+      width: '50%',
+      height: '100%',
     },
+    preview: {
+      width: '50%',
+      height: '100%',
+    }
   },
-});
+};
 
 interface EditorProps {
   editorState: string;
@@ -27,45 +42,24 @@ const Nav = () => {
   );
 };
 
-const Editor = ({editorState, updateEditorState}: EditorProps) => {
-  const handleChange = (event: any) => {
-    updateEditorState(event.target.value);
-  };
-  return (
-    <div className='editor'>
-      <h1>Editor</h1>
-      <textarea id="w3review" name="w3review" rows={4} cols={50} value={editorState ?? ''} onChange={handleChange}>
-        {/* {editorState ?? ''} */}
-      </textarea>
-    </div>
-  );
-};
-
-const Preview = ({editorState}: Partial<EditorProps>) => {
-  return (
-    <div className='preview'>
-      <h1>Preview</h1>
-      <div className='preview__output'>
-        {editorState ?? ''}
-      </div>
-    </div>
-  );
-};
-
 const Main = (editorProps: EditorProps) => {
   const { editorState, updateEditorState } = editorProps;
   return (
-    <div className='main'>
-      <Editor  editorState={editorState} updateEditorState={updateEditorState}/>
-      <Preview editorState={editorState}/>
-    </div>
+    <Box className='main' sx={styles.main.root}>
+      <Box className='editor' sx={styles.main.editor}>
+        <Editor  value={editorState} onChange={updateEditorState}/>
+      </Box>
+      <Box className='preview' sx={styles.main.preview}>
+        <Preview value={editorState}/>
+      </Box>
+    </Box>
   );
 };
 
 function App() {
   const [editorState, updateEditorState] = useState('');
   return (
-    <ThemeProvider theme={theme ?? {}}>
+    <ThemeProvider theme={theme}>
     <Nav />
     <Container className="app">
       <Main editorState={editorState} updateEditorState={updateEditorState}/>
